@@ -23,18 +23,6 @@ def PSNR(original, compressed):
     psnr = 20 * log10(max_pixel / sqrt(mse))
     return psnr
 
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Nov 15 10:55:16 2021
-
-@author: Yucheng
-"""
-
-import cv2
-import numpy as np
-
-
-
 def colourfulnessMetric(img):
     """
     Created on Mon Nov 15 10:55:16 2021
