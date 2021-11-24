@@ -32,10 +32,11 @@ path = os.getcwd()
 paths = glob.glob(path +os.sep+"val_256_NOBW"+os.sep+"*.jpg")
 # Grabbing all the image file names
 np.random.seed(123)
-paths_subset = np.random.choice(paths, 10_000, replace=False) # choosing 1000 images randomly
-rand_idxs = np.random.permutation(10_000)
-train_idxs = rand_idxs[:8000] # choosing the first 8000 as training set
-val_idxs = rand_idxs[8000:] # choosing last 2000 as validation set
+N = len(paths) # 32509
+paths_subset = np.random.choice(paths, N, replace=False) # choosing 1000 images randomly
+rand_idxs = np.random.permutation(N)
+train_idxs = rand_idxs[:30000] # choosing the first 30000 as training set
+val_idxs = rand_idxs[30000:] # choosing the remaining as validation set
 train_paths = paths_subset[train_idxs]
 val_paths = paths_subset[val_idxs]
 print(len(train_paths), len(val_paths))
@@ -269,7 +270,7 @@ class MainModel(nn.Module):
             self.net_G = net_G.to(self.device)
         self.net_D = init_model(PatchDiscriminator(input_c=3, n_down=3, num_filters=64), self.device)
         self.GANcriterion = GANLoss(gan_mode='vanilla').to(self.device)
-        self.L1criterion = nn.L1Loss()
+        self.L1criterion = nn.MSELoss() #nn.L1Loss()
         self.opt_G = optim.Adam(self.net_G.parameters(), lr=lr_G, betas=(beta1, beta2))
         self.opt_D = optim.Adam(self.net_D.parameters(), lr=lr_D, betas=(beta1, beta2))
     
@@ -448,13 +449,13 @@ def train_model(model, train_dl, epochs, display_every=100):
                 log_results(loss_meter_dict) # function to print out the losses
                 visualize(model, data, save=False) # function displaying the model's outputs
 
-        if e % 10 == 0:
+        if e % 10 == 9:
             print("Saving model.")
-            torch.save({"epoch": e,
+            torch.save({"epoch": e+1,
                         "model_state_dict": model.state_dict(),
                         "optimizer_state_dict_G": optim_G.state_dict(),
                         "optimizer_state_dict_D": optim_D.state_dict()},
-                        "model_epoch_{}".format(e))
+                        "model_L2_epoch_{}.pt".format(e+1))
 
 model = MainModel()
 train_model(model, train_dl, 100)

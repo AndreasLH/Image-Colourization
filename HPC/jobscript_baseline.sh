@@ -54,7 +54,7 @@ module load cuda/11.0
 
 
 
-pip3 install --user --upgrade pip
+pip3 install --user --upgrade pip setuptools wheel
 pip3 install --user unidecode
 pip3 install --user inflect
 pip3 install --user matplotlib

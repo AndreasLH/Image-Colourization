@@ -36,10 +36,11 @@ path = os.getcwd()
 paths = glob.glob(path +os.sep+"val_256_NOBW"+os.sep+"*.jpg")
 # Grabbing all the image file names
 np.random.seed(123)
-paths_subset = np.random.choice(paths, 10_000, replace=False) # choosing 1000 images randomly
-rand_idxs = np.random.permutation(10_000)
-train_idxs = rand_idxs[:8000] # choosing the first 8000 as training set
-val_idxs = rand_idxs[8000:] # choosing last 2000 as validation set
+N = len(paths) # 32509
+paths_subset = np.random.choice(paths, N, replace=False) # choosing 1000 images randomly
+rand_idxs = np.random.permutation(N)
+train_idxs = rand_idxs[:30000] # choosing the first 30000 as training set
+val_idxs = rand_idxs[30000:] # choosing the remaining as validation set
 train_paths = paths_subset[train_idxs]
 val_paths = paths_subset[val_idxs]
 print(len(train_paths), len(val_paths))
@@ -54,10 +55,7 @@ for ax, img_path in zip(axes.flatten(), train_paths):
 
 
 mode = 'xception'
-if mode == 'xception':
-    SIZE = 299
-else:
-    SIZE = 256
+SIZE = 256
 batch_size = 4
 class ColorizationDataset(Dataset):
     def __init__(self, paths, split='train',mode='standard'):
@@ -463,7 +461,7 @@ def build_vgg_unet(arch, n_input=1, n_output=2, size=256):
 
 def build_timm_unet(arch, n_input=1, n_output=2, size=256):
   device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-  body = create_timm_body(arch=arch, pretrained=True, n_in=1, cut=-10)
+  body = create_timm_body(arch=arch, pretrained=True, n_in=1, cut=-2)
   net_G = DynamicUnet(body, n_output, (size, size)).to(device)
   return net_G
 
@@ -521,13 +519,13 @@ def train_model(model, train_dl, epochs, display_every=100):
                 log_results(loss_meter_dict) # function to print out the losses
                 visualize(model, data, save=False) # function displaying the model's outputs
 
-        if e % 10 == 0:
+        if e % 10 == 9:
             print("Saving model.")
-            torch.save({"epoch": e,
+            torch.save({"epoch": e+1,
                         "model_state_dict": model.state_dict(),
                         "optimizer_state_dict_G": optim_G.state_dict(),
                         "optimizer_state_dict_D": optim_D.state_dict()},
-                        "backbone_model_epoch_{}".format(e))
+                        "backbone_model_epoch_{}.pt".format(e+1))
 
 
 # In[ ]:
