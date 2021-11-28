@@ -17,7 +17,7 @@ from torch import nn, optim
 from torch.utils.data import DataLoader, Dataset
 from torchvision import transforms
 from torchvision.datasets import Places365
-from tqdm.notebook import tqdm
+from tqdm import tqdm
 import cv2
 from fastai.vision.learner import create_body
 from torchvision.models.vgg import vgg19
@@ -54,9 +54,9 @@ for ax, img_path in zip(axes.flatten(), train_paths):
 # In[ ]:
 
 
-mode = 'xception'
+mode = 'vgg19'
 SIZE = 256
-batch_size = 4
+batch_size = 16
 class ColorizationDataset(Dataset):
     def __init__(self, paths, split='train',mode='standard'):
         if split == 'train':
@@ -525,7 +525,7 @@ def train_model(model, train_dl, epochs, display_every=100):
                         "model_state_dict": model.state_dict(),
                         "optimizer_state_dict_G": optim_G.state_dict(),
                         "optimizer_state_dict_D": optim_D.state_dict()},
-                        "backbone_model_epoch_{}.pt".format(e+1))
+                        "backbone_vgg_epoch_{}.pt".format(e+1))
 
 
 # In[ ]:
