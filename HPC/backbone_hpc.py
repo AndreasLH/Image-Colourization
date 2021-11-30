@@ -119,7 +119,7 @@ def train_model(model, train_dl, epochs, display_every=100):
                         "model_state_dict": model.state_dict(),
                         "optimizer_state_dict_G": optim_G.state_dict(),
                         "optimizer_state_dict_D": optim_D.state_dict()},
-                        "backbone_model_epoch_{}.pt".format(e+1))
+                        "backbone_vgg_epoch_{}.pt".format(e+1))
 
 # In[ ]:
 
