@@ -26,7 +26,6 @@ device = torch.device("cuda:0" if cuda else "cpu")
 print("training using:", device)
 
 
-
 path = os.getcwd()
 paths = glob.glob(path +os.sep+"val_256_NOBW"+os.sep+"*.jpg")
 # Grabbing all the image file names
@@ -40,10 +39,6 @@ train_paths = paths_subset[train_idxs]
 val_paths = paths_subset[val_idxs]
 print(len(train_paths), len(val_paths))
 
-_, axes = plt.subplots(4, 4, figsize=(10, 10))
-for ax, img_path in zip(axes.flatten(), train_paths):
-    ax.imshow(Image.open(img_path))
-    ax.axis("off")
 
 mode = 'xception'
 SIZE = 256
@@ -56,7 +51,7 @@ batch_size = 4
 #'xception, used for the xception backbone. 
 #input these as strings with lowercase letters
 
-train_dl = make_dataloaders(paths=train_paths, batch_size=batch_size, split='train',mode=mode)
+train_dl = make_dataloaders(paths=train_paths, batch_size=batch_size, split='train', mode=mode)
 val_dl = make_dataloaders(paths=val_paths, batch_size=batch_size, split='val',mode=mode)
 
 data = next(iter(train_dl))

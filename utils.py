@@ -17,12 +17,14 @@ device = torch.device("cuda:0" if cuda else "cpu")
 
 
 def create_dataset():
+    '''sets up folder structure for data set'''
     if not os.path.isdir("data/val_256_NOBW"):
         path = os.getcwd()
         paths = glob.glob(path + "/data/val_256/*.jpg")
         os.mkdir("data/val_256_NOBW")
 
         def remove_BW_images(path):
+            '''removes BW images from dataset original dataset'''
             new_paths = []
             for img_path in path:
                 im = Image.open(img_path)
@@ -202,15 +204,8 @@ def lab_to_rgb(L, ab): ########## klamt!!
         rgb_imgs.append(img_rgb)
     return np.stack(rgb_imgs, axis=0)
 
-def lab_to_BW(L, ab): ########## klamt!!
-    """
-    Takes a batch of images
-    """
-    L = (L+1.)/2 * 255.0 # Back to range [0, 255]
-    ab = (ab+1.)/2 * 255.0 # Back to range [0,255]
-    L = L.type(torch.uint8)
-    L = L.permute(0, 2, 3, 1).cpu().numpy()
-    return L.squeeze(0,3)
+def lab_to_BW(L):
+    return L[0, 0, :, :]
     
 def visualize(model, data, save=True):
     model.net_G.eval()
