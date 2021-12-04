@@ -186,11 +186,11 @@ def update_losses(model, loss_meter_dict, count):
         loss = getattr(model, loss_name)
         loss_meter.update(loss.item(), count=count)
 
-def lab_to_rgb(L, ab): ########## klamt!!
+def lab_to_rgb(L, ab): 
     """
     Takes a batch of images
     """
-    L = (L+1.)/2 * 255.0 # Back to range [0, 255]
+    L = (L[:,0,:,:].view(-1,1,256,256)+1.)/2 * 255.0 # Back to range [0, 255]
     ab = (ab+1.)/2 * 255.0 # Back to range [0,255]
     L = L.type(torch.uint8)
     ab = ab.type(torch.uint8)

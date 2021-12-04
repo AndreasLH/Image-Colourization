@@ -118,17 +118,20 @@ class MainModel(nn.Module):
         self.fake_color = self.net_G(self.L)
     
     def backward_D(self):
-        fake_image = torch.cat([self.L, self.fake_color], dim=1)
+#         fake_image = torch.cat([self.L, self.fake_color], dim=1)
+        fake_image = torch.cat([self.L[:,0,:,:].view(-1,1,256,256), self.fake_color], dim=1)
         fake_preds = self.net_D(fake_image.detach())
         self.loss_D_fake = self.GANcriterion(fake_preds, False)
-        real_image = torch.cat([self.L, self.ab], dim=1)
+#         real_image = torch.cat([self.L, self.ab], dim=1)
+        real_image = torch.cat([self.L[:,0,:,:].view(-1,1,256,256), self.ab], dim=1)
         real_preds = self.net_D(real_image)
         self.loss_D_real = self.GANcriterion(real_preds, True)
         self.loss_D = (self.loss_D_fake + self.loss_D_real) * 0.5
         self.loss_D.backward()
     
     def backward_G(self):
-        fake_image = torch.cat([self.L, self.fake_color], dim=1)
+#         fake_image = torch.cat([self.L, self.fake_color], dim=1)
+        fake_image = torch.cat([self.L[:,0,:,:].view(-1,1,256,256), self.fake_color], dim=1)
         fake_preds = self.net_D(fake_image)
         self.loss_G_GAN = self.GANcriterion(fake_preds, True)
         self.loss_G_L1 = self.Lcriterion(self.fake_color, self.ab) * self.lambda_L1
