@@ -4,9 +4,9 @@
 #BSUB -q gpuv100
 #BSUB -R "select[gpu32gb]"
 ### -- set the job Name --
-#BSUB -J GAN_
+#BSUB -J GAN_L2
 ### -- ask for number of cores (default: 1) --
-#BSUB -n 4
+#BSUB -n 1
 #BSUB -R "span[hosts=1]"
 ### -- Select the resources: 1 gpu in exclusive process mode --
 #BSUB -gpu "num=1:mode=exclusive_process"
@@ -46,25 +46,14 @@
 #/zhome/43/7/137749/.cache/torch/hub/nvidia_DeepLearningExamples_torchhub/hubconf.py
 
 
-cd /zhome/bb/d/146781/Desktop/Deep/
+module load python3/3.9.6
 
-module load python3/3.8.0
-module load cuda/11.0
+# load CUDA (for GPU support)
+module load cuda/11.3
 
+# activate the virtual environment
+source DeepLearning/bin/activate
 
-
-
-pip3 install --user --upgrade pip setuptools wheel
-pip3 install --user unidecode
-pip3 install --user inflect
-pip3 install --user matplotlib
-pip3 install --user numpy
-pip3 install --user torch==1.8.1+cu111 torchvision==0.9.1+cu111 torchaudio==0.8.1 -f https://download.pytorch.org/whl/torch_stable.html
-pip3 install --user glob2
-pip3 install --user Pillow
-pip3 install --user torchvision
-pip3 install --user tqdm
-pip3 install --user opencv-python
 
 
 #Generate wav files

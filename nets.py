@@ -51,7 +51,9 @@ class UnetBlock(nn.Module):
 class Unet(nn.Module):
     def __init__(self, input_c=1, output_c=2, n_down=8, num_filters=64):
         super().__init__()
+        # start with the bottle neck layer
         unet_block = UnetBlock(num_filters * 8, num_filters * 8, innermost=True)
+        # build U-net from inside out.
         for _ in range(n_down - 5):
             unet_block = UnetBlock(num_filters * 8, num_filters * 8, submodule=unet_block, dropout=True)
         out_filters = num_filters * 8
@@ -118,11 +120,9 @@ class MainModel(nn.Module):
         self.fake_color = self.net_G(self.L)
     
     def backward_D(self):
-#         fake_image = torch.cat([self.L, self.fake_color], dim=1)
         fake_image = torch.cat([self.L[:,0,:,:].view(-1,1,256,256), self.fake_color], dim=1)
         fake_preds = self.net_D(fake_image.detach())
         self.loss_D_fake = self.GANcriterion(fake_preds, False)
-#         real_image = torch.cat([self.L, self.ab], dim=1)
         real_image = torch.cat([self.L[:,0,:,:].view(-1,1,256,256), self.ab], dim=1)
         real_preds = self.net_D(real_image)
         self.loss_D_real = self.GANcriterion(real_preds, True)
@@ -130,7 +130,6 @@ class MainModel(nn.Module):
         self.loss_D.backward()
     
     def backward_G(self):
-#         fake_image = torch.cat([self.L, self.fake_color], dim=1)
         fake_image = torch.cat([self.L[:,0,:,:].view(-1,1,256,256), self.fake_color], dim=1)
         fake_preds = self.net_D(fake_image)
         self.loss_G_GAN = self.GANcriterion(fake_preds, True)

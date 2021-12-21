@@ -194,13 +194,11 @@ def lab_to_rgb(L, ab):
     ab = (ab+1.)/2 * 255.0 # Back to range [0,255]
     L = L.type(torch.uint8)
     ab = ab.type(torch.uint8)
-    # L = (L + 1.) * 50.
-    # ab = ab * 128.
+
     Lab = torch.cat([L, ab], dim=1).permute(0, 2, 3, 1).cpu().numpy()
     rgb_imgs = []
     for img in Lab:
-        img_rgb = cv2.cvtColor(img,cv2.COLOR_LAB2RGB) # *
-        # img_rgb = lab2rgb(img)
+        img_rgb = cv2.cvtColor(img,cv2.COLOR_LAB2RGB) #
         rgb_imgs.append(img_rgb)
     return np.stack(rgb_imgs, axis=0)
 

@@ -40,16 +40,16 @@ val_paths = paths_subset[val_idxs]
 print(len(train_paths), len(val_paths))
 
 
-mode = 'xception'
-SIZE = 256
-batch_size = 4
-
 #select mode: mode indicates which backbone you are using for the encoder.
 #Options are:
 #'standard': used for the baseline Unet
 #'vgg19', used for the vgg19 backbone
 #'xception, used for the xception backbone. 
 #input these as strings with lowercase letters
+
+mode = 'xception'
+SIZE = 256
+batch_size = 4
 
 train_dl = make_dataloaders(paths=train_paths, batch_size=batch_size, split='train', mode=mode)
 val_dl = make_dataloaders(paths=val_paths, batch_size=batch_size, split='val',mode=mode)
@@ -89,7 +89,7 @@ torch.save(net_G.state_dict(), save_file_name)
 # In[ ]:
 
 
-def train_model(model, train_dl, epochs, display_every=100):
+def train_model(model, train_dl, epochs, display_every=100,c=0):
     data = next(iter(val_dl)) # getting a batch for visualizing the model output after fixed intrvals
     optim_G = model.model_optimizers()['G']
     optim_D = model.model_optimizers()['D']
@@ -104,17 +104,18 @@ def train_model(model, train_dl, epochs, display_every=100):
             update_losses(model, loss_meter_dict, count=data['L'].size(0)) # function updating the log objects
             i += 1
             if i % display_every == 0:
-                print(f"\nEpoch {e+1}/{epochs}")
+                print(f"\nEpoch {e+1+c}/{epochs+c}")
                 print(f"Iteration {i}/{len(train_dl)}")
                 log_results(loss_meter_dict) # function to print out the losses
-               
+                # visualize(model, data, save=False) # function displaying the model's outputs
+
         if e % 10 == 9:
             print("Saving model.")
-            torch.save({"epoch": e+1,
+            torch.save({"epoch": e+1+c,
                         "model_state_dict": model.state_dict(),
                         "optimizer_state_dict_G": optim_G.state_dict(),
                         "optimizer_state_dict_D": optim_D.state_dict()},
-                        "backbone_vgg_epoch_{}.pt".format(e+1))
+                        "backbone_xception_epoch_{}.pt".format(e+1+c))
 
 # In[ ]:
 
@@ -129,4 +130,16 @@ else:
 if os.path.isfile("{}.pt".format(mode)): 
     net_G.load_state_dict(torch.load(save_file_name, map_location=device))
 model = MainModel(net_G=net_G)
-train_model(model, train_dl, 100)
+
+### COMMENT IN THE FOLLOWING CODE TO RESUME TRAINING
+c = 80
+checkpoint = torch.load("backbone_xception_epoch_{}.pt".format(c), map_location=device)
+epoch = checkpoint['epoch']
+print("resuming training from epoch:", epoch)
+model.load_state_dict(checkpoint['model_state_dict'])
+model.model_optimizers()['G'].load_state_dict(checkpoint['optimizer_state_dict_G'])
+model.model_optimizers()['D'].load_state_dict(checkpoint['optimizer_state_dict_D'])
+train_model(model, train_dl, 100-epoch,  c=c)
+### 
+
+# train_model(model, train_dl, 100)
