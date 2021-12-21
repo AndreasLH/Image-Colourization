@@ -67,13 +67,7 @@ class ColorizationDataset(Dataset):
         img_lab = transforms.ToTensor()(img_lab)
         L = 2*(img_lab[[0], ...] / 255.0) -1 # normalise to [-1,1] # *
         ab = 2*(img_lab[[1, 2], ...] / 255.0) -1 # normalise to [-1,1] # *
-      
-        # L = img_lab[[0], ...] / 50. - 1. # Between -1 and 1 ### L channel is in range [0, 100]
-        # ab = img_lab[[1, 2], ...] / 128. # Between -1 and 1 ### I think this is wrong. According to [1]: a,b channel is in range [-110,110] 
-                                                            ### However, according to [2], [3] a,b channel is in range [-128,127]
-    # [1] http://ai.stanford.edu/~ruzon/software/rgblab.html
-    # [2] https://stackoverflow.com/questions/46415948/converting-rgb-images-to-lab-using-scikit-image
-    # [3] https://www.colourphil.co.uk/lab_lch_colour_space.shtml
+
         
         if self.mode == 'xception':
             L_temp = L
@@ -98,7 +92,7 @@ def make_dataloaders(batch_size=16, n_workers=0, pin_memory=False, **kwargs): #
     """
     if cuda:
         pin_memory = True
-        n_workers = 0 ## 2 seems to be the most efficient for colab
+        n_workers = 2 ## 2 seems to be the most efficient for colab
     dataset = ColorizationDataset(**kwargs)
     dataloader = DataLoader(dataset, batch_size=batch_size, num_workers=n_workers, pin_memory=pin_memory)
     return dataloader

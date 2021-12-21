@@ -13,7 +13,7 @@ import os
 
 from PIL import Image
 from torch import nn, optim
-from tqdm.notebook import tqdm
+from tqdm import tqdm
 from torchvision.models.vgg import vgg19
 
 # import sys # might be necessary
