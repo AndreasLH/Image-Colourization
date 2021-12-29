@@ -166,7 +166,9 @@ def create_timm_body(arch:str, n_in=3, pretrained=True, cut=None):
     if   isinstance(cut, int): return nn.Sequential(*list(model.children())[:cut])
     elif callable(cut): return cut(model)
     else: raise NameError("cut must be either integer or a function")
-
+#taken from https://github.com/muellerzr/Practical-Deep-Learning-for-Coders-2.0/blob/master/Computer%20Vision/05_EfficientNet_and_Custom_Weights.ipynb
+        
+        
 def build_vgg_unet(arch, n_input=1, n_output=2, size=256):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     body = create_body(arch=arch, pretrained=True, n_in=1, cut=-2)
