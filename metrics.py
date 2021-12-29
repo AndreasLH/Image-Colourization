@@ -5,6 +5,9 @@ import numpy as np
 def PSNR(original, compressed):
     '''
     Calculates the Peak signal to noise ratio between a ground truth image and predicted image.
+    
+    see https://www.geeksforgeeks.org/python-peak-signal-to-noise-ratio-psnr/ 
+    for reference
 
     Parameters
     ----------
