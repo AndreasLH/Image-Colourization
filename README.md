@@ -1,5 +1,9 @@
-# Image-Colourization
-Image colourization 🖍🎨 for our project in the DTU Deep Learning course (02456)
+# Image Colourization with conditional GANs
+Repository for our image colourization 🖍🎨 project in the Deep Learning course (02456) at DTU. 
+
+You can find our poster [here](poster/02456_Deep_Learning_Image_Colourization.pdf).
+
+# How it works
 
 # Milestones
 - [x] Data: use the places365 dataset (remove BW images)
@@ -11,7 +15,9 @@ Image colourization 🖍🎨 for our project in the DTU Deep Learning course (02
 - [ ] Use image labels as additional conditional data and assess improvement
 - [ ] Evaluate how image label data improved the model
 
-# How to activate on HPC
+# Training your own model on HPC cluster
+The Places365 dataset is available [here](http://places2.csail.mit.edu/): 
+
 $ are terminal commands
 1. open terminal in same folder as this project and type the following commands (you can paste them into the terminal with middle mouse click)
 2. ```$ module load python3/3.9.6```
@@ -20,4 +26,4 @@ $ are terminal commands
 5. ```$ source DeepLearning/bin/activate```
 6. ```$ pip3 install -r requirements.txt```
 
-Now everything should be setup. Then see the ```submit.sh``` shell script for how it is activated. It should be run from the same path as the project.
+Now everything should be setup. Then see the ```HPC/submit.sh``` shell script for how it is activated. It should be run from the same path as the project.
