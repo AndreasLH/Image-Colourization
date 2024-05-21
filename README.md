@@ -3,7 +3,8 @@ Repository for our image colourization 🖍🎨 project in the Deep Learning cou
 
 You can find our poster [here](poster/02456_Deep_Learning_Image_Colourization.pdf).
 
-# How it works
+# Results
+![alt text](figs/preds.png)
 
 # Milestones
 - [x] Data: use the places365 dataset (remove BW images)
