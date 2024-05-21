@@ -3,9 +3,6 @@ Repository for our image colourization 🖍🎨 project in the Deep Learning cou
 
 You can find our poster [here](poster/02456_Deep_Learning_Image_Colourization.pdf).
 
-# Results
-![alt text](figs/preds.png)
-
 # Milestones
 - [x] Data: use the places365 dataset (remove BW images)
 - [x] Make the baseline (GAN and L1-loss without transfer learning)
@@ -28,3 +25,6 @@ $ are terminal commands
 6. ```$ pip3 install -r requirements.txt```
 
 Now everything should be setup. Then see the ```HPC/submit.sh``` shell script for how it is activated. It should be run from the same path as the project.
+
+# Results
+![alt text](figs/preds.png)
