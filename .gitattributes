@@ -1,0 +1,2 @@
+# remove jupyter notebook from summary
+*.ipynb -linguist-detectable
