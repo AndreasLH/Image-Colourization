@@ -27,4 +27,4 @@ $ are terminal commands
 Now everything should be setup. Then see the ```HPC/submit.sh``` shell script for how it is activated. It should be run from the same path as the project.
 
 # Results
-![alt text](figs/preds.png)
+![alt text](figs/preds2.png)
