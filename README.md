@@ -9,7 +9,7 @@ You can find our poster [here](poster/02456_Deep_Learning_Image_Colourization.pd
 - [x] Test difference between L1 and L2 loss on baseline model
 - [x] 2 backbones VGG19, Xception
 - [x] Quantitative evaluation (colourfulness, peak signal-to-noise ratio (PSNR))
-- [x] Qualitative human evaluation (by us) on 5 images each (discussion in report)
+- [x] Qualitative human evaluation (by us) on 5 images each 
 - [ ] Use image labels as additional conditional data and assess improvement
 - [ ] Evaluate how image label data improved the model
 
