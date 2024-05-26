@@ -24,7 +24,7 @@ $ are terminal commands
 5. ```$ source DeepLearning/bin/activate```
 6. ```$ pip3 install -r requirements.txt```
 
-Now everything should be setup. Then see the ```HPC/submit.sh``` shell script for how it is activated. It should be run from the same path as the project.
+Now everything should be setup. Submit shell script ```HPC/submit.sh``` to start training your model.
 
 # Results
 ![alt text](figs/preds2.png)
