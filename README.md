@@ -15,7 +15,7 @@ We use conditional Generative Adversarial Networks (GANs) to colourise black/whi
 ```
 The loss encourages the generator to generate better images and the discriminator to become better at discriminating between real and fake images. The last term is a regularisation term weighted by the value $`\lambda`$.
 
-Images are represented in the Lab colour space, instead of the more common RGB colour space. The goal of the generator is then to predict the $`a`$ and $`a`$ colour channels, which reduces the dimensionality of the problem from $`256^3`$ to $`256^2`$.
+Images are represented in the Lab colour space, instead of the more common RGB colour space. The goal of the generator is then to predict the $`a`$ and $`b`$ colour channels, which reduces the dimensionality of the problem from $`256^3`$ to $`256^2`$.
 <center><img src="figs/parrot.png" ...></center>
 <p align="center">Visualisation of L, A, and B colour channels for an example image.<p align="center">
 
